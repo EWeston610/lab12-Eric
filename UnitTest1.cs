@@ -1,6 +1,6 @@
 System.Console.WriteLine("automated testing ...");
-System.Diagnostics.Debug.Assert(Library.ShiftedCharacter('a') == 'b');
-System.Diagnostics.Debug.Assert(Library.ShiftedCharacter('z') == 'a');
+System.Diagnostics.Debug.Assert(Library.ShiftedCharacter('a', 1) == 'b');
+System.Diagnostics.Debug.Assert(Library.ShiftedCharacter('z', 1) == 'a');
 System.Diagnostics.Debug.Assert(Library.LetterPosition('a') == 0);
 System.Diagnostics.Debug.Assert(Library.LetterPosition('b') == 1);
 System.Diagnostics.Debug.Assert(Library.LetterPosition('z') == 25);
@@ -11,15 +11,28 @@ System.Diagnostics.Debug.Assert(Library.WrapLetterPosition(29) == 3);
 System.Console.WriteLine("tests passed.");
 
 Console.Write("Please Enter a character (I will display the shifted character): ");
+int shiftNum = 1;
 while(true){
-    Console.Write(Library.ShiftedCharacter(Console.ReadKey(true).KeyChar));
+    ConsoleKey keyRead = Console.ReadKey(true).Key;
+    switch (keyRead){
+        case ConsoleKey.UpArrow:
+            shiftNum++;
+            break;
+        case ConsoleKey.DownArrow: 
+            shiftNum--;
+            break;
+        default:
+            keyRead.ToString();
+            Console.Write(Library.ShiftedCharacter((char)keyRead, shiftNum));
+            break;
+    }
 }
 public class Library
 {
-    public static char ShiftedCharacter(char originalCharacter)
+    public static char ShiftedCharacter(char originalCharacter, int numToShiftBy)
     {
         
-        return CharacterFromAscii(Library.WrapLetterPosition(LetterPosition(originalCharacter) + 1) + 'a');
+        return CharacterFromAscii(Library.WrapLetterPosition(LetterPosition(originalCharacter) + numToShiftBy) + 'a');
     }
 
     public static char CharacterFromAscii(int asciiValue)
